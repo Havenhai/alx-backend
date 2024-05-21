@@ -1,11 +1,20 @@
 #!/usr/bin/env python3
-"""Pagination helper function.
-"""
+""" module for the index_range function implementation """
+
 from typing import Tuple
 
 
-def index_range(page: int, page_size: int) -> Tuple[int, int]:
-    """Retrieves the index range from a given page and page size.
+def index_range(page, page_size) -> Tuple[int]:
     """
+    This function returns a tuple of size two containing a
+    start index and an end index corresponding to the range
+    of indexes to return in a list for those particular
+    pagination parameters.
 
-    return ((page - 1) * page_size, ((page - 1) * page_size) + page_size)
+    Args:
+        page (int): _description_
+        page_size (int): _description_
+    """
+    skip = page_size * page
+    offset = page_size * (page - 1)
+    return (offset, skip)
