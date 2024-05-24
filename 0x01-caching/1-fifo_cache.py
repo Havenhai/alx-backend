@@ -1,37 +1,25 @@
 #!/usr/bin/env python3
+""" module with implementation of FIFOCache class """
 
-'''Task 1: FIFO caching
-'''
-
-
-from collections import OrderedDict
-from base_caching import BaseCaching
+BaseCaching = __import__("base_caching").BaseCaching
 
 
 class FIFOCache(BaseCaching):
-    '''A class `FIFOCache` that inherits from
-       `BaseCaching` and is a caching system.
-    '''
+    """ FIFO caching system that inherits from BaseCaching """
 
     def __init__(self):
+        """Initialize cache instance"""
         super().__init__()
-        self.cache_data = OrderedDict()
 
     def put(self, key, item):
-        '''assign to the dictionary `self.cache_data` the
-           `item` value for the key `key`
-        '''
-
-        if key is None or item is None:
-            return
-
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            first_key, _ = self.cache_data.popitem(last=False)
-            print(f"DISCARD: {first_key}")
-
-        self.cache_data[key] = item
+        """Add an item to the cache."""
+        if key and item and self.get(key) != item:
+            self.cache_data[key] = item
+            if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+                key = next(iter(self.cache_data))
+                self.cache_data.pop(key)
+                print("DISCARD:", key)
 
     def get(self, key):
-        '''return the value in `self.cache_data` linked to `key`
-        '''
+        """Retrieves an item from the cache."""
         return self.cache_data.get(key, None)
